@@ -1,6 +1,6 @@
 # MySQL login
 Current: main database on 235 synology server 
-### The idea: move all data to the local server and buck up copy to the 235 synology 
+#### The idea: move all data to the local server and buck up copy to the 235 synology 
 
 
 # NZX parsing ( dividends & market data )
