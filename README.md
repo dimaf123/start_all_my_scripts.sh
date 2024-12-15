@@ -1,7 +1,9 @@
 # MySQL login
 Current: main database on 235 synology server 
-#### The idea: move all data to the local server and buck up copy to the 235 synology 
-
+~/mysql_235_Synology.cnf
+~/mysql_localhost.cnf    
+ at this point, stop 
+ 
 
 # NZX parsing ( dividends & market data )
 
@@ -22,3 +24,7 @@ Call: from <strong><i>start_all_my_scripts.sh</i></strong> -> <strong><i>import_
 
 Bata block in <i>https://www.nzx.com/markets/NZSX/dividends</i> statrs with <strong><i><script id="__NEXT_DATA__" ..... > </strong></i> So, I get source from  <strong><i>[BeautifulSoup](https://www.nzx.com/markets/NZSX/dividends)</strong></i> ,using <strong><i>BeautifulSoup</strong></i> parses to  find <strong><i><script id="__NEXT_DATA__" ..... > </strong></i> , loads data via <strong><i>json.loads</strong></i> and print all data sometimes using <strong><i>jmespath.search</strong></i> do find shares ticker in  <strong><i>marketInstruments</strong></i> block of json data. 
 Starting fro DVD 
+
+# routines
+### cleaning table from unnecessary tickers
+<strong><i>mysql   --defaults-extra-file=~/mySQL_235Synology_configlogin.cnf  -B TESTEEE -e 'DELETE FROM `tickers_stats` WHERE `ticker` IN (SELECT `ticker` FROM `dead_tickers`);'  </i> </strong>
