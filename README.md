@@ -1,8 +1,8 @@
 # MySQL login
-Current: main database on 235 synology server 
-~/mysql_235_Synology.cnf
-~/mysql_localhost.cnf    
- at this point, stop 
+Current: main database on 235 synology server <br>
+<strong><i>~/mysql_235_Synology.cnf</strong></i><br>
+<strong><i>~/mysql_localhost.cnf</strong></i>    
+ #### at this point, stop 
  
 
 # NZX parsing ( dividends & market data )
