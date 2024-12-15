@@ -14,6 +14,7 @@ Call: from <strong><i>start_all_my_scripts.sh</i></strong> -> <strong><i>import_
 <strong><i>import_from_nzx_dvd.sh</i></strong> most likely for making calling DVD out of <strong><i>start_all_my_scripts.sh</i></strong>
  <h4>NZX_dvd_new_2024.py</h4> 
  
-<strong><i>/Users/supervisor/Google Drive/development/python/NZX_dvd_new_2024.py</strong></i> - read <i>https://www.nzx.com/markets/NZSX/dividends</i>, parses json data and print result as a comma separated text to a standard output. <br>
+<strong><i>/Users/supervisor/Google Drive/development/python/NZX_dvd_new_2024.py</strong></i> - reads <i>https://www.nzx.com/markets/NZSX/dividends</i>, parses json data and print result as a comma separated text to a standard output. <br>
+
 Bata block in <i>https://www.nzx.com/markets/NZSX/dividends</i> statrs with <strong><i><script id="__NEXT_DATA__" ..... > </strong></i> So, I get source from  <strong><i>[BeautifulSoup](https://www.nzx.com/markets/NZSX/dividends)</strong></i> ,using <strong><i>BeautifulSoup</strong></i> parses to  find <strong><i><script id="__NEXT_DATA__" ..... > </strong></i> , loads data via <strong><i>json.loads</strong></i> and print all data sometimes using <strong><i>jmespath.search</strong></i> do find shares ticker in  <strong><i>marketInstruments</strong></i> block of json data. 
 Starting fro DVD 
