@@ -8,6 +8,9 @@ In scripts I use absolute path to files. <br>
 
 In both <strong><i>https://www.nzx.com/markets/NZSX/dividends</i></strong> and  <strong><i>https://www.nzx.com/markets/NZSX</strong></i> json data starts with a <strong><i><script id="__NEXT_DATA__" ..... > </strong></i> and consists of several blocks. In <strong><i>.../dividends</i></strong> they are <strong><i>{"marketInstruments":[{ ... }]</i></strong> is a dictionary for tickers ( name, ticker etc ) with <strong><i>isin</strong></i> as a key and <strong><i>"marketDividends":[{ ... {]</strong></i>  with the same  <strong><i>isin</strong></i> key. 
 
+
+<h4> Dividends</h4>
+Call: from <strong><i>/Users/supervisor/Google Drive/development/scriptsstart_all_my_scripts.sh</i></strong> -> <strong><i>env bash '/Users/supervisor/dev/scripts/import_from_nzx_dvd.sh'</i></strong> -> <strong><i>python3 "/Users/supervisor/Google Drive/development/python/NZXUpDvD/NZX_dvd_new_2024.py" > $Back_Up_Folder/ex_dvd.txt</i></strong>
 <strong><i>/Users/supervisor/Google Drive/development/python/NZX_dvd_new_2024.py</strong></i> - read <i>https://www.nzx.com/markets/NZSX/dividends</i>, parses json data and print result as a comma separated text to a standard output. <br>
 Bata block in <i>https://www.nzx.com/markets/NZSX/dividends</i> statrs with <strong><i><script id="__NEXT_DATA__" ..... > </strong></i> So, I get source from  <strong><i>[BeautifulSoup](https://www.nzx.com/markets/NZSX/dividends)</strong></i> ,using <strong><i>BeautifulSoup</strong></i> parses to  find <strong><i><script id="__NEXT_DATA__" ..... > </strong></i> , loads data via <strong><i>json.loads</strong></i> and print all data sometimes using <strong><i>jmespath.search</strong></i> do find shares ticker in  <strong><i>marketInstruments</strong></i> block of json data. 
 Starting fro DVD 
