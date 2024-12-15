@@ -11,7 +11,7 @@ In both <strong><i>https://www.nzx.com/markets/NZSX/dividends</i></strong> and  
 
 <h3> Dividends</h4>
 Call: from <strong><i>start_all_my_scripts.sh</i></strong> -> <strong><i>import_from_nzx_dvd.sh</i></strong> -> <strong><i>NZX_dvd_new_2024.py</i></strong><br>
-<strong><i>import_from_nzx_dvd.sh</i></strong> most likely for making calling DVD out of <strong><i>start_all_my_scripts.sh</i></strong
+<strong><i>import_from_nzx_dvd.sh</i></strong> most likely for making calling DVD out of <strong><i>start_all_my_scripts.sh</i></strong>
  <h4>NZX_dvd_new_2024.py</h4> 
  
 <strong><i>/Users/supervisor/Google Drive/development/python/NZX_dvd_new_2024.py</strong></i> - read <i>https://www.nzx.com/markets/NZSX/dividends</i>, parses json data and print result as a comma separated text to a standard output. <br>
