@@ -1,5 +1,10 @@
 # start_all_my_scripts.sh
 собственно все мои скрипты for my investments arhive and dividends history 
+### MySQL login
+Current: main database on 235 synology server 
+
+
+
 
 <strong>/Users/supervisor/Google Drive/development/python/NZXUpDvDjson_read_from_file.py</strong> - experiments with <strong><i>json & jmespath</strong></i> <br>
 Knowledge derived from https://scrapfly.io/blog/parse-json-jmespath-python/ and https://python.land/data-processing/working-with-json/jmespath  <br>
