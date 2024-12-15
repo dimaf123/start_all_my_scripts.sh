@@ -1,7 +1,7 @@
 # MySQL login
 Current: main database on 235 synology server <br>
-<strong><i>~/mysql_235_Synology.cnf</strong></i><br>
-<strong><i>~/mysql_localhost.cnf</strong></i>    
+<strong><i> ~/mysql_235_Synology.cnf </strong></i><br>
+<strong><i> ~/mysql_localhost.cnf </strong></i>    
  #### at this point, stop 
  
 
