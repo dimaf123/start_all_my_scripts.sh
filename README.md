@@ -9,5 +9,5 @@ In scripts I use absolute path to files. <br>
 
 
 <strong><i>/Users/supervisor/Google Drive/development/python/NZX_dvd_new_2024.py</strong></i> - read <i>https://www.nzx.com/markets/NZSX/dividends</i>, parses json data and print result as a comma separated text to a standard output. <br>
-Bata block in <i>https://www.nzx.com/markets/NZSX/dividends</i> statrs with <strong><i>/<script id="__NEXT_DATA__" </strong></i>
+Bata block in <i>https://www.nzx.com/markets/NZSX/dividends</i> statrs with <strong><i><script id="__NEXT_DATA__" </strong></i>
 Starting fro DVD 
