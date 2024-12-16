@@ -9,11 +9,11 @@ ServerIP=192.168.1.235                            # 235 Synology
 ServerMAC=00:11:32:D4:BA:79                       # Lan 1
 Back_Up_Folder='/Users/supervisor/Downloads/arh'
 eval "$(pyenv init --path)"
-who
+#  who list f current users 
 
-echo ":--------------------"
+# echo ":--------------------"
 
-w 
+#   w  list of current terminals
 
 echo ":--------------------"
 
@@ -45,21 +45,33 @@ fi
 echo ": -- Tickets Stats"
 #  -------------   Information from NZX Main Board
 python3 "/Users/supervisor/Google Drive/development/python/NZXmainBoard/nzx_main_board_2024.py" > $Back_Up_Folder/tickers_stats.txt
-mysqlimport --defaults-extra-file=~/mylogin.cnf --replace --local --fields-terminated-by=, --fields-enclosed-by='"' TESTEEE $Back_Up_Folder/tickers_stats.txt > $Back_Up_Folder/temp.tmp
+mysqlimport --defaults-extra-file=~/mysql_235_Synology.cnf --replace --local --fields-terminated-by=, --fields-enclosed-by='"' TESTEEE $Back_Up_Folder/tickers_stats.txt > $Back_Up_Folder/temp.tmp
 
 # +++ Refresh all Constant Tables like SmartShares, Dead Tickers, IRD exchange rates etc
-# +++      !!!!!!!!!!!!!!!!!!            mysql   --defaults-extra-file=~/mylogin.cnf -s -r TESTEEE < "/Users/supervisor/Google Drive/development/SQL editor/sql_constants.sql"
+# +++      !!!!!!!!!!!!!!!!!!            mysql   --defaults-extra-file=~/mysql_235_Synology.cnf -s -r TESTEEE < "/Users/supervisor/Google Drive/development/SQL editor/sql_constants.sql"
 
 # +++ Delete unnecessary records from tickers_stats
 # +++ List of tickers in '/Users/supervisor/Google Drive/development/SQL editor/sql_constants.sql'
-# mysql   --defaults-extra-file=~/mylogin.cnf  -B TESTEEE -e 'DELETE FROM `tickers_stats` WHERE `ticker` IN (SELECT `ticker` FROM `dead_tickers`);'
+# mysql   --defaults-extra-file=~/mysql_235_Synology.cnf  -B TESTEEE -e 'DELETE FROM `tickers_stats` WHERE `ticker` IN (SELECT `ticker` FROM `dead_tickers`);'
 #
 # UPD 2020-11-25
 #
 # Delete all tickers not in my list 
 # Очень опасно !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # UPD 2023-04-21 и я попался!!!! если, вдруг, импорт tikers поломался, то удаляется все !!!!!!!!!!!!!!!!!!!!!!!!!
-# mysql   --defaults-extra-file=~/mylogin.cnf  -B TESTEEE -e 'DELETE FROM  `tickers_stats` where `ticker` not in (select `ticker` from `tickers`);'
+#
+# UPD 2024-12-17 Костыль
+#
+if mysql   --defaults-extra-file=~/mysql_235_Synology.cnf -N  -B TESTEEE -e "SELECT COUNT(*) from tickers  ;" | grep -q "115"; then
+    echo ": -- Removing unnecessary records from tickers_stats"
+    mysql   --defaults-extra-file=~/mysql_235_Synology.cnf  -B TESTEEE -e 'DELETE FROM  `tickers_stats` where `ticker` not in (select `ticker` from `tickers`);'
+    echo ": -- Removing unnecessary records from ex_dvd"
+    mysql   --defaults-extra-file=~/mysql_235_Synology.cnf  -B TESTEEE -e 'DELETE FROM  `ex_dvd` where `ticker` not in (select `ticker` from `tickers`);'
+else 
+  echo ": -- !!!! start_all_my_scripts: Error: Number of records in tickers not equal 115 !!! Check ! ( deleting unnecessery records from tickers_stats and ex_dvd) "  
+  sleep 10
+fi 
+# mysql   --defaults-extra-file=~/mysql_235_Synology.cnf  -B TESTEEE -e 'DELETE FROM  `tickers_stats` where `ticker` not in (select `ticker` from `tickers`);'
 
 
 
@@ -76,7 +88,7 @@ env bash '/Users/supervisor/dev/scripts/import_from_nzx_dvd.sh'
 
 
 # Update tickers with current prices
-mysql   --defaults-extra-file=~/mylogin.cnf  -B TESTEEE -e 'UPDATE `tickers` INNER JOIN `tickers_stats` ON `tickers`.`ticker` = `tickers_stats`.`ticker` and `tickers_stats`.`u_date` =  (Select max(u_date) from tickers_stats)  SET `tickers`.`price` = `tickers_stats`.`price`  WHERE `tickers`.`ticker` like "NZE:%";'
+mysql   --defaults-extra-file=~/mysql_235_Synology.cnf  -B TESTEEE -e 'UPDATE `tickers` INNER JOIN `tickers_stats` ON `tickers`.`ticker` = `tickers_stats`.`ticker` and `tickers_stats`.`u_date` =  (Select max(u_date) from tickers_stats)  SET `tickers`.`price` = `tickers_stats`.`price`  WHERE `tickers`.`ticker` like "NZE:%";'
 
 # Update NZ50C index
 echo ": -- Update nz50c index from import_from_nzx google sheets"
@@ -86,18 +98,18 @@ wget -O $Back_Up_Folder/nz50c.txt -o ~/wget_log   "https://docs.google.com/sprea
 tr -d '\r' < $Back_Up_Folder/nz50c.txt >$Back_Up_Folder/nz50c.trt
 #                                                                 UPD 2021-05-06 По каким-то причинам txt файл очищался. Проще всего показалось импортировать из trt 
 # UPD 2021-05-06      mv $Back_Up_Folder/nz50c.trt $Back_Up_Folder/nz50c.txt
-mysqlimport --defaults-extra-file=~/mylogin.cnf --replace --local --fields-terminated-by=, --fields-enclosed-by='"' TESTEEE $Back_Up_Folder/nz50c.trt #UPD 2021-05-06 was txt file  
+mysqlimport --defaults-extra-file=~/mysql_235_Synology.cnf --replace --local --fields-terminated-by=, --fields-enclosed-by='"' TESTEEE $Back_Up_Folder/nz50c.trt #UPD 2021-05-06 was txt file  
 echo ": -- Finished nz50c"
 # Reports to screen
-mysql   --defaults-extra-file=~/mylogin.cnf --line-numbers  --table TESTEEE < "/Users/supervisor/Google Drive/development/SQL editor/portfolio_by_sectors.sql"
+mysql   --defaults-extra-file=~/mysql_235_Synology.cnf --line-numbers  --table TESTEEE < "/Users/supervisor/Google Drive/development/SQL editor/portfolio_by_sectors.sql"
 echo "Wait a minute"
-mysql   --defaults-extra-file=~/mylogin.cnf --line-numbers  --table TESTEEE < "/Users/supervisor/Google Drive/development/SQL editor/Perfomance_of_myIndex_and_FNZ.sql"
+mysql   --defaults-extra-file=~/mysql_235_Synology.cnf --line-numbers  --table TESTEEE < "/Users/supervisor/Google Drive/development/SQL editor/Perfomance_of_myIndex_and_FNZ.sql"
 # BackUp Database
 
 # ---------------------   Copy of mysql 192.168.1.235 to local host  ----------------------------------
 echo ": -- BackUp TESTEEE"
 BACK_UP_DB_FILE=$Back_Up_Folder"/$(date +%F)-TESTEEE_bak.sql"
-mysqldump   --defaults-extra-file=~/mylogin.cnf  --column-statistics=0  TESTEEE > $BACK_UP_DB_FILE
+mysqldump   --defaults-extra-file=~/mysql_235_Synology.cnf  --column-statistics=0  TESTEEE > $BACK_UP_DB_FILE
 mysql   --defaults-extra-file=~/mysql_localhost.cnf -e "DROP DATABASE TESTEEE;"
 mysql   --defaults-extra-file=~/mysql_localhost.cnf -e "CREATE DATABASE TESTEEE;"
 mysql   --defaults-extra-file=~/mysql_localhost.cnf  TESTEEE < $BACK_UP_DB_FILE
